@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CreateActivity"
+    android:padding="24dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/judulPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="What do you want to do?"
+        android:textColor="@color/blue"
+        android:textSize="32sp"
+        android:gravity="center"
+        android:padding="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/montserrat_regular"/>
+
+    <LinearLayout
+        android:layout_below="@id/judulPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        >
+
+        <EditText
+            android:id="@+id/taskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="New Task"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="20sp"
+            android:textColor="@color/color1"
+            android:background="@null"
+            />
+
+        <EditText
+            android:id="@+id/taskDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Add details"
+            android:textSize="12sp"
+            android:textColor="@color/color5"
+            android:background="@null"
+            android:layout_marginTop="16dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="How important?"
+            android:textColor="@color/color5"
+            android:background="@null"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/montserrat_regular"
+            />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioVeryImportant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Very Important!"
+                android:fontFamily="@font/montserrat_regular"/>
+
+            <RadioButton
+                android:id="@+id/radioImportant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Important"
+                android:fontFamily="@font/montserrat_regular"/>
+
+            <RadioButton
+                android:id="@+id/radioLessImportant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Less Important"
+                android:fontFamily="@font/montserrat_regular"/>
+
+        </RadioGroup>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rounded_rec_blue"
+        android:text="Save"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+
+</RelativeLayout>
