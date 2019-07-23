@@ -7,7 +7,6 @@
     tools:context=".activities.CreateActivity"
     android:padding="24dp"
     android:background="@color/white">
-
     <TextView
         android:id="@+id/judulPage"
         android:layout_width="match_parent"

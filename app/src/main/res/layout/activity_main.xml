@@ -68,7 +68,6 @@
                 app:queryHint="Search here..."></android.support.v7.widget.SearchView>
         </LinearLayout>
 
-
         <TextView
             android:id="@+id/btnAdd"
             android:layout_width="match_parent"
@@ -82,8 +81,5 @@
             android:textColor="#fff"
             android:layout_weight="1"/>
 
-
-
     </LinearLayout>
-
 </RelativeLayout>

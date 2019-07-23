@@ -29,8 +29,7 @@ import static inggitsemut.whattodo.api.ConfigUtils.BASE_URL;
 public class CreateActivity extends AppCompatActivity implements View.OnClickListener{
 
     EditText taskTitle, taskDetail;
-    RadioGroup radioGroup;
-    RadioButton radioButton, rbVeryImportant, rbImportant, rbLessImportant;
+    RadioButton rbVeryImportant, rbImportant, rbLessImportant;
     String type="";
 
     @Override
@@ -41,7 +40,6 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
         // form create
         taskTitle = findViewById(R.id.taskTitle);
         taskDetail = findViewById(R.id.taskDetail);
-        radioGroup = findViewById(R.id.radioGroup);
         rbVeryImportant = findViewById(R.id.radioVeryImportant);
         rbImportant = findViewById(R.id.radioImportant);
         rbLessImportant = findViewById(R.id.radioLessImportant);
@@ -56,21 +54,6 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
         String title = taskTitle.getText().toString().trim();
         String detail = taskDetail.getText().toString().trim();
 
-        //pilih radio button yang ada di radio button group
-        int selectedId = radioGroup.getCheckedRadioButtonId();
-
-        // mencari radio button
-        radioButton = (RadioButton) findViewById(selectedId);
-
-//        if (radioButton.getText().equals("Very Important!")){
-//            type = "1";
-//        }
-//        else if (radioButton.getText().equals("Important")){
-//            type = "2";}
-//        else {
-//            type="3";
-//        }
-
         if (rbVeryImportant.isChecked()){
             type="1";
         }
@@ -80,20 +63,6 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
         else
             type="3";
 
-//        switch (selectedId){
-//            case R.id.radioVeryImportant :
-//                Toast.makeText(CreateActivity.this,"Clicked "+((RadioButton)findViewById(selectedId)).getText(), Toast.LENGTH_SHORT).show();
-//                type = "1";
-//                break;
-//            case R.id.radioImportant :
-//                Toast.makeText(CreateActivity.this,"Clicked "+((RadioButton)findViewById(selectedId)).getText(), Toast.LENGTH_SHORT).show();
-//                type = "2";
-//                break;
-//            case R.id.radioLessImportant :
-//                Toast.makeText(CreateActivity.this,"Clicked "+((RadioButton)findViewById(selectedId)).getText(), Toast.LENGTH_SHORT).show();
-//                type = "3";
-//                break;
-//        }
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Creating a task...");

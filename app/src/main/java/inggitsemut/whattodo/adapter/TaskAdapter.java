@@ -8,18 +8,19 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import inggitsemut.whattodo.R;
 import inggitsemut.whattodo.models.Task;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
-    private List<Task> data;
+    private ArrayList<Task> data = new ArrayList<>();
     private Context mCtx;
 
     private OnTaskListener mOnTaskListener;
 
-    public TaskAdapter(List<Task> data, Context mCtx, OnTaskListener onTaskListener) {
+    public TaskAdapter(ArrayList<Task> data, Context mCtx, OnTaskListener onTaskListener) {
         this.data = data;
         this.mCtx = mCtx;
         this.mOnTaskListener = onTaskListener;
@@ -37,6 +38,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         final Task task = data.get(position);
         holder.tvTitle.setText(task.getTitle());
         holder.tvDetail.setText(task.getDetail());
+        int id = task.getId();
 
         if (task.getType().equals("1")){
             holder.colorStatus.setBackgroundResource(R.color.red);

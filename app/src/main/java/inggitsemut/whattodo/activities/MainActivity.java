@@ -30,12 +30,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnTas
     TextView btnAdd;
 
     private RecyclerView recyclerViewTask;
-    private ArrayList<Task> tasks;
+    private ArrayList<Task> data = new ArrayList<>();
     private RecyclerView.Adapter taskAdapter;
-
-    Service service;
-    ProgressDialog progressDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,22 +76,21 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnTas
                 Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
 
     @Override
     public void onTaskClick(int position) {
-        int id = tasks.get(position).getId();
-        String title = tasks.get(position).getTitle();
-        String detail = tasks.get(position).getDetail();
-        String type = tasks.get(position).getType();
+//        int id = data.get(position).getId();
+//        String title = data.get(position).getTitle();
+//        String detail = data.get(position).getDetail();
+//        String type = data.get(position).getType();
 
         Intent intent = new Intent(MainActivity.this, EditActivity.class);
-        intent.putExtra("id",id);
-        intent.putExtra("title",title);
-        intent.putExtra("detail",detail);
-        intent.putExtra("type",type);
+//        intent.putExtra("id",id);
+//        intent.putExtra("title",title);
+//        intent.putExtra("detail",detail);
+//        intent.putExtra("type",type);
         startActivity(intent);
     }
 }
