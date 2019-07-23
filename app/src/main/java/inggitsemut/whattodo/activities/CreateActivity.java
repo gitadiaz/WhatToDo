@@ -1,8 +1,11 @@
 package inggitsemut.whattodo.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,42 +13,135 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import inggitsemut.whattodo.R;
+import javax.xml.transform.Result;
 
-public class CreateActivity extends AppCompatActivity {
+import inggitsemut.whattodo.R;
+import inggitsemut.whattodo.api.Service;
+import inggitsemut.whattodo.models.Task;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static inggitsemut.whattodo.api.ConfigUtils.BASE_URL;
+
+public class CreateActivity extends AppCompatActivity implements View.OnClickListener{
 
     EditText taskTitle, taskDetail;
     RadioGroup radioGroup;
-    RadioButton radioButton;
-    Button btnSave;
-
-    ProgressDialog progressDialog;
+    RadioButton radioButton, rbVeryImportant, rbImportant, rbLessImportant;
+    String type="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
+        // form create
         taskTitle = findViewById(R.id.taskTitle);
         taskDetail = findViewById(R.id.taskDetail);
         radioGroup = findViewById(R.id.radioGroup);
+        rbVeryImportant = findViewById(R.id.radioVeryImportant);
+        rbImportant = findViewById(R.id.radioImportant);
+        rbLessImportant = findViewById(R.id.radioLessImportant);
 
-        btnSave = findViewById(R.id.btnSave);
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        // button save
+        findViewById(R.id.btnSave).setOnClickListener(this);
+
+    }
+
+
+    private void createTask() {
+        String title = taskTitle.getText().toString().trim();
+        String detail = taskDetail.getText().toString().trim();
+
+        //pilih radio button yang ada di radio button group
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+        // mencari radio button
+        radioButton = (RadioButton) findViewById(selectedId);
+
+//        if (radioButton.getText().equals("Very Important!")){
+//            type = "1";
+//        }
+//        else if (radioButton.getText().equals("Important")){
+//            type = "2";}
+//        else {
+//            type="3";
+//        }
+
+        if (rbVeryImportant.isChecked()){
+            type="1";
+        }
+        else if(rbImportant.isChecked()){
+            type="2";
+        }
+        else
+            type="3";
+
+//        switch (selectedId){
+//            case R.id.radioVeryImportant :
+//                Toast.makeText(CreateActivity.this,"Clicked "+((RadioButton)findViewById(selectedId)).getText(), Toast.LENGTH_SHORT).show();
+//                type = "1";
+//                break;
+//            case R.id.radioImportant :
+//                Toast.makeText(CreateActivity.this,"Clicked "+((RadioButton)findViewById(selectedId)).getText(), Toast.LENGTH_SHORT).show();
+//                type = "2";
+//                break;
+//            case R.id.radioLessImportant :
+//                Toast.makeText(CreateActivity.this,"Clicked "+((RadioButton)findViewById(selectedId)).getText(), Toast.LENGTH_SHORT).show();
+//                type = "3";
+//                break;
+//        }
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Creating a task...");
+        progressDialog.show();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Service service = retrofit.create(Service.class);
+
+        Task data = new Task(title, detail, type);
+
+        Call<Task> call = service.createTasks(
+                data.getTitle(),
+                data.getDetail(),
+                data.getType()
+        );
+
+        //calling the api
+        call.enqueue(new Callback<Task>() {
             @Override
-            public void onClick(View v) {
+            public void onResponse(Call<Task> call, Response<Task> response) {
+                progressDialog.dismiss();
 
-                //pilih radio button yang ada di radio button group
-                int selectedId = radioGroup.getCheckedRadioButtonId();
+                Toast.makeText(
+                        getApplicationContext(),
+                        "Add Task Success!",
+                        Toast.LENGTH_LONG).show();
+                finish(); // kembali ke main activity
+            }
 
-                // mencari radio button
-                radioButton = (RadioButton) findViewById(selectedId);
 
-                // proggress dialog
-
-
+            @Override
+            public void onFailure(Call<Task> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
             }
         });
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnSave:
+                createTask();
+                break;
+        }
     }
 }

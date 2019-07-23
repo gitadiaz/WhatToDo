@@ -5,11 +5,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +24,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TaskAdapter.OnTaskListener {
 
     SearchView searchBar;
     TextView btnAdd;
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<TaskList>() {
             @Override
             public void onResponse(Call<TaskList> call, Response<TaskList> response) {
-                taskAdapter = new TaskAdapter(response.body().getTaskList(), getApplicationContext());
+                taskAdapter = new TaskAdapter(response.body().getTaskList(), getApplicationContext(),MainActivity.this);
                 recyclerViewTask.setHasFixedSize(true);
                 recyclerViewTask.setAdapter(taskAdapter);
 
@@ -86,5 +84,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onTaskClick(int position) {
+        int id = tasks.get(position).getId();
+        String title = tasks.get(position).getTitle();
+        String detail = tasks.get(position).getDetail();
+        String type = tasks.get(position).getType();
+
+        Intent intent = new Intent(MainActivity.this, EditActivity.class);
+        intent.putExtra("id",id);
+        intent.putExtra("title",title);
+        intent.putExtra("detail",detail);
+        intent.putExtra("type",type);
+        startActivity(intent);
+    }
 }
 

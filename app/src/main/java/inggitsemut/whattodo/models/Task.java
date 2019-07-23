@@ -9,7 +9,16 @@ public class Task {
     private int id;
     private String title;
     private String detail;
-    private int type;
+    private String type;
+
+    public Task(String title, String detail, String type){
+        this.title = title;
+        this.detail = detail;
+        this.type = type;
+    }
+
+
+
 
     public int getId() {
         return id;
@@ -35,11 +44,11 @@ public class Task {
         this.detail = detail;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 }

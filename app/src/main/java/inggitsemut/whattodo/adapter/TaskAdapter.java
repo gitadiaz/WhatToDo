@@ -17,15 +17,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     private List<Task> data;
     private Context mCtx;
 
-    public TaskAdapter(List<Task> data, Context mCtx) {
+    private OnTaskListener mOnTaskListener;
+
+    public TaskAdapter(List<Task> data, Context mCtx, OnTaskListener onTaskListener) {
         this.data = data;
         this.mCtx = mCtx;
+        this.mOnTaskListener = onTaskListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_task, viewGroup, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, mOnTaskListener);
     }
 
     @Override
@@ -35,15 +38,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         holder.tvTitle.setText(task.getTitle());
         holder.tvDetail.setText(task.getDetail());
 
-        if (task.getType()==1){
+        if (task.getType().equals("1")){
             holder.colorStatus.setBackgroundResource(R.color.red);
         }
-        else if (task.getType()==2){
+        else if (task.getType().equals("2")){
             holder.colorStatus.setBackgroundResource(R.color.yellow);
         }
         else {
             holder.colorStatus.setBackgroundResource(R.color.green);
         }
+
     }
 
     @Override
@@ -51,17 +55,30 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView tvTitle, tvDetail;
         private LinearLayout colorStatus;
+        OnTaskListener onTaskListener;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, OnTaskListener onTaskListener) {
             super(itemView);
 
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDetail = itemView.findViewById(R.id.tvDetail);
             colorStatus = itemView.findViewById(R.id.colorStatus);
+            this.onTaskListener = onTaskListener;
+
+            itemView.setOnClickListener(this);
 
         }
+
+        @Override
+        public void onClick(View v) {
+            onTaskListener.onTaskClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnTaskListener{
+        void onTaskClick(int position);
     }
 }
